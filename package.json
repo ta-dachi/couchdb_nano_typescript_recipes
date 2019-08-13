@@ -1,0 +1,13 @@
+{
+  "name": "couchdb_nano_typescript_recipes",
+  "version": "1.0.0",
+  "dependencies": {
+    "nano": "^8.1.0",
+    "ts-node": "^8.3.0",
+    "typescript": "^3.5.3"
+  },
+  "devDependencies": {},
+  "scripts": {},
+  "author": "Takumi Adachi",
+  "license": "ISC"
+}
