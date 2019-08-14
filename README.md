@@ -4,6 +4,12 @@ CouchDB >= 7.x.x (http://couchdb.apache.org/)
 
 Node >= 10.x.x (https://nodejs.org/en/)
 
+## Recommendations
+
+VSCode
+ES6/ES7 Extensions
+Intellisense Extensions
+
 ## Install
 
 ```
@@ -19,5 +25,5 @@ Visit http://localhost:5984
 Go to [views.ts](examples/views/views.ts)
 
 ```
-npx ts-node views.ts
+npx ts-node examples/views/views.ts
 ```
