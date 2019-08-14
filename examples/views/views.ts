@@ -1,6 +1,7 @@
 import { nano } from "../../connect";
 import * as Nano from "nano";
 
+// We implement Nano.Document because various Nano methods require its properties to be used in the methods.
 class Residence implements Nano.Document {
   _id: string;
   _rev: string;
@@ -20,6 +21,9 @@ class Residence implements Nano.Document {
   }
 }
 
+// We implement Nano.ViewDocument<T>, in this case it is Nano.ViewDocument<Residence>
+// The specific properties that are implemented are _id and views.
+// VSCode will check for you and write the types for you using the yellow lightbulb when you hover over code that gives warnings.
 class ResidenceView implements Nano.ViewDocument<Residence> {
   _id: string;
   // Use any so that emit works for now.
@@ -28,8 +32,14 @@ class ResidenceView implements Nano.ViewDocument<Residence> {
     this.views = {
       all: {
         map: function(doc) {
+          /**
+           * emit is a function in CouchDB Database, not found currently in Nano
+           * We ignore it so that the typescript compiler does not create errors.
+           * And we can freely compile it and let CouchDB use the emit method properly.
+           * If there is a better method than @ts-ignore, please let me know!
+           */
           // @ts-ignore
-          emit(doc.name, doc._id); // emit(key, value)
+          emit(doc.name, doc._id); // emit(key, value) <-- Corresponds to key in db.view(...) method
         }
       }
     };
@@ -61,7 +71,7 @@ class ResidenceView implements Nano.ViewDocument<Residence> {
   } catch (error) {
     await db.insert(new ResidenceView(), "_design/residence_view");
   }
-
+  // Insert some typed objects that implements the proper Nano interfaces
   await db.insert(new Residence("Jule", "Shenzhen"));
   await db.insert(new Residence("Ange", "Fukuoka"));
   await db.insert(new Residence("Shelly", "Macao"));
@@ -69,12 +79,13 @@ class ResidenceView implements Nano.ViewDocument<Residence> {
     key: "Shelly" // **Important** Corresponds to the key in emit
   });
 
+  // Output:
   /**
    { total_rows: 3,
       offset: 1,
       rows:
    [ { id: 'bdcaab0e2362a0852348d2dc30037f0b',
-       key: 'Jule',       value: 'bdcaab0e2362a0852348d2dc30037f0b' } ] }
+       key: 'Shelly',       value: 'bdcaab0e2362a0852348d2dc30037f0b' } ] }
    */
   console.log(tryView);
 })();
