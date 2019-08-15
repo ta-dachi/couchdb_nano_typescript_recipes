@@ -23,7 +23,7 @@ class Residence implements Nano.Document {
 
 // We implement Nano.ViewDocument<T>, in this case it is Nano.ViewDocument<Residence>
 // The specific properties that are implemented are _id and views.
-// VSCode will check for you and write the types for you using the yellow lightbulb when you hover over code that gives warnings.
+// VSCode will check and write the types for you using the yellow lightbulb when you hover over code that gives warnings.
 class ResidenceView implements Nano.ViewDocument<Residence> {
   _id: string;
   // Use any so that emit works for now.
@@ -32,6 +32,7 @@ class ResidenceView implements Nano.ViewDocument<Residence> {
     this.views = {
       all: {
         map: function(doc) {
+          // Do not use ES6 arrow functions as this is CouchDB cannot understand ES6 arrows.
           /**
            * emit is a function in CouchDB Database, not found currently in Nano
            * We ignore it so that the typescript compiler does not create errors.
@@ -39,7 +40,7 @@ class ResidenceView implements Nano.ViewDocument<Residence> {
            * If there is a better method than @ts-ignore, please let me know!
            */
           // @ts-ignore
-          emit(doc.name, doc._id); // emit(key, value) <-- Corresponds to key in db.view(...) method
+          emit(doc.name, doc._id); // emit((key), (value)) <-- Corresponds to key in db.view(... method
         }
       }
     };
@@ -76,7 +77,7 @@ class ResidenceView implements Nano.ViewDocument<Residence> {
   await db.insert(new Residence("Ange", "Fukuoka"));
   await db.insert(new Residence("Shelly", "Macao"));
   const tryView = await db.view("residence_view", "all", {
-    key: "Shelly" // **Important** Corresponds to the key in emit
+    key: "Shelly" // **Important** Corresponds to the (key) in views' map's emit function
   });
 
   // Output:

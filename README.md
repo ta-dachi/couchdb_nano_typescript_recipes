@@ -4,6 +4,8 @@ CouchDB >= 7.x.x (http://couchdb.apache.org/)
 
 Node >= 10.x.x (https://nodejs.org/en/)
 
+Typescript >= 3.x.x
+
 ## Recommendations
 
 VSCode
