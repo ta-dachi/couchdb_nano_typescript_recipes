@@ -1,4 +1,4 @@
-import { nano } from "../../connect";
+import { nano } from "../../../connect";
 import * as Nano from "nano";
 
 // We implement Nano.Document because various Nano methods require its properties to be used in the methods.
@@ -13,10 +13,12 @@ class Residence implements Nano.Document {
     this.city = city;
   }
 
+  // Use this to assing your own _id and _rev
+  // replace response.id and response.rev with your own.
   processAPIResponse(response: Nano.DocumentInsertResponse) {
     if (response.ok === true) {
-      this._id = response.id;
-      this._rev = response.rev;
+      this._id = response.id; // replaceable with your own
+      this._rev = response.rev; // replaceable with your own
     }
   }
 }
@@ -32,7 +34,7 @@ class ResidenceView implements Nano.ViewDocument<Residence> {
     this.views = {
       all: {
         map: function(doc) {
-          // Do not use ES6 arrow functions as this is CouchDB cannot understand ES6 arrows.
+          // Do not use ES6 arrow functions as CouchDB cannot understand ES6 arrows.
           /**
            * emit is a function in CouchDB Database, not found currently in Nano
            * We ignore it so that the typescript compiler does not create errors.

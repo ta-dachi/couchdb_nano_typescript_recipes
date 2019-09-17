@@ -1,6 +1,6 @@
-## views.ts
+# views.ts
 
-See https://guide.couchdb.org/draft/views.html for more information about views
+See <https://guide.couchdb.org/draft/views.html> for more information about views
 
 From the official CouchDB guide:
 
